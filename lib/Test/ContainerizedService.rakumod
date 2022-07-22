@@ -101,9 +101,7 @@ sub docker-pull-image(Str $image) {
 
 #| Sends the stop command to a docker container.
 sub docker-stop(Str $name --> Nil) {
-    try {
-        my $proc = Proc::Async.new('docker', 'stop', $name);
-        .tap for $proc.stdout, $proc.stderr;
-        await $proc.start;
-    }
+    my $proc = Proc::Async.new('docker', 'stop', $name);
+    .tap for $proc.stdout, $proc.stderr;
+    try sink await $proc.start;
 }
