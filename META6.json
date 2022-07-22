@@ -1,0 +1,21 @@
+{
+  "name": "Test::ContainerizedService",
+  "description": "Sets up containerized services (such as databases) to ease writing integration test cases that depend on them.",
+  "version": "0.1",
+  "perl": "6.*",
+  "authors": [
+    "Jonathan Worthington <jnthn@jnthn.net>"
+  ],
+  "auth": "zef:jnthn",
+  "depends": [],
+  "build-depends": [],
+  "test-depends": [],
+  "provides": {
+    "Test::ContainerizedService": "lib/Test/ContainerizedService.rakumod",
+    "Test::ContainerizedService::Spec": "lib/Test/ContainerizedService/Spec.rakumod",
+    "Test::ContainerizedService::Spec::Postgres": "lib/Test/ContainerizedService/Spec/Postgres.rakumod"
+  },
+  "resources": [],
+  "license": "Artistic-2.0",
+  "source-url": "https://github.com/jnthn/raku-test-containerized-service.git"
+}

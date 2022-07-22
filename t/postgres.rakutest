@@ -1,0 +1,29 @@
+use v6.d;
+use Test::ContainerizedService;
+use Test;
+
+# Only test if we have Postgres available.
+try require ::('DB::Pg');
+my $pg = ::('DB::Pg');
+if $pg ~~ Failure {
+    skip 'No DB::Pg available for testing';
+}
+else {
+    diag 'Loaded DB::Pg for use in testing';
+    test-service 'postgres', :tag<13.0>, -> (:$conninfo, *%) {
+        my $conn-attempt = start $pg.new(:$conninfo).db;
+        await Promise.anyof($conn-attempt, Promise.in(1.0));
+        if $conn-attempt {
+            pass "Connected to Postgres test container";
+            my $db = await $conn-attempt;
+            is $db.query('SELECT (1 + 41) as answer').value, 42,
+                    'Can query the database';
+            $db.finish;
+        }
+        else {
+            flunk "Timed out trying to connect";
+        }
+    }
+}
+
+done-testing;
