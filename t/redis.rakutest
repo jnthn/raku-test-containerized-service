@@ -1,0 +1,21 @@
+use v6.d;
+use Test::ContainerizedService;
+use Test;
+
+# Only test if we have Postgres available.
+try require ::('Redis');
+my $redis = ::('Redis');
+if $redis ~~ Failure {
+    skip 'No Redis module available for testing';
+}
+else {
+    test-service 'redis', :tag<7.0>, -> (:$host, :$port) {
+        my $conn = $redis.new("$host:$port", :decode_response);
+        pass "Connected to containerized Redis";
+        $conn.set("eggs", "fried");
+        is $conn.get("eggs"), "fried", "Can get/set values";
+        $conn.quit;
+    }
+}
+
+done-testing;

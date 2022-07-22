@@ -5,7 +5,8 @@ use Test::ContainerizedService::Spec;
 # Mapping of names passed to test-service to the module name to require and
 # (matching) class to use.
 my constant %specs =
-        'postgres' => 'Test::ContainerizedService::Spec::Postgres';
+        'postgres' => 'Test::ContainerizedService::Spec::Postgres',
+        'redis' => 'Test::ContainerizedService::Spec::Redis';
 
 #| Run tests in the provided body with the specified service.
 sub test-service(Str $service-id, &body, Str :$tag, *%options) is export {

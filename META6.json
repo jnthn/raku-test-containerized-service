@@ -13,7 +13,8 @@
   "provides": {
     "Test::ContainerizedService": "lib/Test/ContainerizedService.rakumod",
     "Test::ContainerizedService::Spec": "lib/Test/ContainerizedService/Spec.rakumod",
-    "Test::ContainerizedService::Spec::Postgres": "lib/Test/ContainerizedService/Spec/Postgres.rakumod"
+    "Test::ContainerizedService::Spec::Postgres": "lib/Test/ContainerizedService/Spec/Postgres.rakumod",
+    "Test::ContainerizedService::Spec::Redis": "lib/Test/ContainerizedService/Spec/Redis.rakumod"
   },
   "resources": [],
   "license": "Artistic-2.0",
