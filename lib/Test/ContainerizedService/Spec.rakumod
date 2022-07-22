@@ -7,9 +7,6 @@ use v6.d;
 #| (for example, generated ports or throw-away passwords) that should be used
 #| later when producing the service options.
 role Test::ContainerizedService::Spec {
-    #| The tag requested by the user, if any.
-    has Str $.tag;
-
     #| Specify the docker container name.
     method docker-container(--> Str) { ... }
 
