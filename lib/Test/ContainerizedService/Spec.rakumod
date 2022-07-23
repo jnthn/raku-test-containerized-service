@@ -58,4 +58,23 @@ role Test::ContainerizedService::Spec {
         my constant @chars = flat 'A'..'Z', 'a'..'z', '1'..'9', <_ ->;
         @chars.roll((15..25).pick).join
     }
+
+    #| A common way to implement the ready method is to check if a connection
+    #| can be made to a certain host/port. This method factors it out for
+    #| reuse by various specifications that wish to do that.
+    method ready-by-connectability(Str $host, Int $port --> Promise) {
+        start {
+            # Wait until we can connect.
+            for ^60 {
+                my $conn = IO::Socket::Async.connect($host, $port);
+                my $delay = Promise.in(1);
+                await Promise.anyof($conn, $delay;);
+                if $conn.status == Kept {
+                    $conn.result.close;
+                    last;
+                }
+                await $delay;
+            }
+        }
+    }
 }

@@ -15,19 +15,7 @@ class Test::ContainerizedService::Spec::Redis does Test::ContainerizedService::S
     }
 
     method ready(Str :$name --> Promise) {
-        start {
-            # Wait until we can connect.
-            for ^60 {
-                my $conn = IO::Socket::Async.connect('127.0.0.1', $!port);
-                my $delay = Promise.in(1);
-                await Promise.anyof($conn, $delay;);
-                if $conn.status == Kept {
-                    $conn.result.close;
-                    last;
-                }
-                await $delay;
-            }
-        }
+        self.ready-by-connectability('127.0.0.1', $!port)
     }
 
     method service-data(--> Associative) {
