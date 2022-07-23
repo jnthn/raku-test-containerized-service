@@ -5,6 +5,7 @@ use Test::ContainerizedService::Spec;
 # Mapping of names passed to test-service to the module name to require and
 # (matching) class to use.
 my constant %specs =
+        'mysql' => 'Test::ContainerizedService::Spec::MySQL',
         'postgres' => 'Test::ContainerizedService::Spec::Postgres',
         'redis' => 'Test::ContainerizedService::Spec::Redis';
 

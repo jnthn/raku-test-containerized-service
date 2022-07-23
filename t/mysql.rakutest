@@ -1,0 +1,30 @@
+use v6.d;
+use Test::ContainerizedService;
+use Test;
+
+# Only test if we have DB::MySQL available.
+try require ::('DB::MySQL');
+my $mysql = ::('DB::MySQL');
+if $mysql ~~ Failure {
+    skip 'No DB::MySQL available for testing';
+}
+else {
+    diag 'Loaded DB::MySQL for use in testing';
+    test-service 'mysql', :tag<5.7>, -> (:$host, :$port, :$user, :$password, :$database) {
+        dd (:$host, :$port, :$user, :$password, :$database);
+        my $conn-attempt = start $mysql.new(:$host, :$port, :$user, :$password, :$database).db;
+        await Promise.anyof($conn-attempt, Promise.in(1.0));
+        if $conn-attempt {
+            my $db = await $conn-attempt;
+            pass "Connected to MySQL test container";
+            is $db.query('SELECT (1 + 41) as answer').value, 42,
+                    'Can query the database';
+            $db.finish;
+        }
+        else {
+            flunk "Timed out trying to connect";
+        }
+    }
+}
+
+done-testing;
