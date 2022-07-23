@@ -27,12 +27,27 @@ test-service 'postgres', -> (:$conninfo, *%) {
 
 # Or get the individual parts:
 test-service 'postgres', -> (:$host, :$port, :$user, :$password, :$dbname, *%) {
-    # Use it as you wish
+    # Use them as you wish
 }
 
 # Can also specify the tag of the postgres container to use:
 test-service 'postgres', :tag<14.4> -> (:$conninfo, *%) {
     my $pg = DB::Pg.new(:$conninfo);
+}
+```
+
+### Redis
+
+```
+use Test;
+use Test::ContainerizedService;
+use Redis;
+
+test-service 'redis', :tag<7.0>, -> (:$host, :$port) {
+    my $conn = Redis.new("$host:$port", :decode_response);
+    $conn.set("eggs", "fried");
+    is $conn.get("eggs"), "fried", "Hurrah, fried eggs!";
+    $conn.quit;
 }
 ```
 
@@ -44,4 +59,5 @@ test-service 'postgres', :tag<14.4> -> (:$conninfo, *%) {
    the role's documentation as well as other specs as an example.
 3. Add a mapping to the `constant %specs` in `Test::ContainerizedService`.
 4. Write a test to make sure it works.
-5. Submit a pull request.
+5. Add an example to the `README.md`.
+6. Submit a pull request.
