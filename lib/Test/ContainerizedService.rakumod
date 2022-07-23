@@ -75,7 +75,7 @@ sub test-service(Str $service-id, &body, Str :$tag, *%options) is export {
     }
     else {
         die "No service specification for '$service-id'; available are: " ~
-            %specs.keys.join(", ")
+            %specs.keys.sort.join(", ")
     }
 }
 
