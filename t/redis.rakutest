@@ -2,7 +2,7 @@ use v6.d;
 use Test::ContainerizedService;
 use Test;
 
-# Only test if we have Postgres available.
+# Only test if we have Redis available.
 try require ::('Redis');
 my $redis = ::('Redis');
 if $redis ~~ Failure {
