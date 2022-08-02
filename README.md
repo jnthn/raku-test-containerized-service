@@ -53,11 +53,12 @@ test-service 'redis', :tag<7.0>, -> (:$host, :$port) {
 
 ## The service I want isn't here!
 
+This module is based on `Dev::ContainerizedService`. Please follow [the
+instructions](https://github.com/jnthn/raku-dev-containerized-service#the-service-i-want-isnt-here)
+to add support for a service to that module; that will mean support is
+provided automatically in this one also. Then:
+
 1. Fork this repository.
-2. Add a module `Test::ContainerizedService::Spec::Foo`, and in it write a
-   class of the same name that does `Test::ContainerizedService::Spec`. See
-   the role's documentation as well as other specs as an example.
-3. Add a mapping to the `constant %specs` in `Test::ContainerizedService`.
-4. Write a test to make sure it works.
-5. Add an example to the `README.md`.
-6. Submit a pull request.
+2. Add an example to the `README.md`.
+3. If wanting to be extremely thorough, add a test to this repository also.
+4. Submit a pull request.
